@@ -1,46 +1,42 @@
-import queue
+from typing import Dict, List
+
 
 
 test_graph = {
-    "s" : ["a","b","c"],
+    "s" : ["a", "b", "c"],
     "a" : ["d", "e"],
     "b" : ["g"],
     "c" : ["f"],
     "d" : ["h"],
     "e" : ["g"],
-    "f" : ["g"],
-    "h" : []
+    "f" : ["g"]
 }
 
 
-def bfs(start, goal, graph):
-    visited = []
-    queue = []
-    path = []
+def bfs(graph, node1, node2):
+    paths = [[node1]]
+    index = 0
+    visited = {node1}
 
-    path.append(start)
-    queue.append(start)
-    visited.append(start)
+    if node1 == node2:
+        return paths[0]
+    
+    while index < len(paths):
+        path = paths[index]
+        last = path[-1]
+        next = graph[last]
 
-    if start == goal:
-        path.append(goal)
-        return path
-
-    while queue:
-        node = queue.pop(0)
-        if node == goal:
-            return visited
+        if node2 in next:
+            path.append(node2)
+            return path
         
-        neighbors = graph[node]
-        for neighbor in neighbors:
-            if neighbor == goal:
-                visited.append(neighbor)
-                return visited
+        for node in next:
+            if not next in visited:
+                new_path = path[:]
+                new_path.append(node)
+                
+        index += 1
+    return []
 
-            if neighbor not in visited:
-                visited.append(neighbor)
-                queue.append(neighbor)
-    return visited
-
-path = bfs("s", "g", test_graph)
+path = bfs(test_graph, "s", "g")
 print(path)
