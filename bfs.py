@@ -16,7 +16,7 @@ test_graph = {
 def bfs(graph, node1, node2):
     paths = [[node1]]
     index = 0
-    visited = {node1}
+    visited = [node1]
 
     if node1 == node2:
         return paths[0]
@@ -31,9 +31,12 @@ def bfs(graph, node1, node2):
             return path
         
         for node in next:
-            if not next in visited:
+            if next not in visited:
                 new_path = path[:]
                 new_path.append(node)
+                visited.append(node)
+        
+
                 
         index += 1
     return []
